@@ -138,7 +138,7 @@ export const portfolio: Portfolio = {
     {
       title: "Participated AND Won in IDEATHON in THE NATIONAL COLLEGE 2025",
       description: "Developed a QR safety scanner(QR SHIELD) which will tell whether QR code is safe or not",
-      image: "/achievements/W2.jpg"
+      image: "/achievements/W2.JPG"
     },
     {
       title: "Participated AND Won in another STARTUP AT MES in 2026  ",
