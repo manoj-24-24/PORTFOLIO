@@ -82,7 +82,7 @@ export const portfolio: Portfolio = {
   location: "Bangalore, India",
   education: "BCA Student, Bangalore University",
   linkedinUrl: "https://www.linkedin.com/in/manoj-k-8883b4381",
-  githubUrl: "https://github.com/krrish24-prog",
+  githubUrl: "https://github.com/manoj-24-24",
   resumeUrl: "/Resume.pdf",
   email: "moogle.2416@gmail.com",
   contact: {
