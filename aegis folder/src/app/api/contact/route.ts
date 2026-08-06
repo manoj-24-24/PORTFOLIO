@@ -27,10 +27,6 @@ function encodeBase64(value: string) {
   return Buffer.from(value, "utf8").toString("base64");
 }
 
-function escapeMailText(value: string) {
-  return value.replace(/\r?\n/g, "\r\n").replace(/^\./gm, "..");
-}
-
 async function saveMessage(message: StoredMessage) {
   const dataDir = path.join(process.cwd(), "data");
   const filePath = path.join(dataDir, "contact-messages.json");
@@ -53,68 +49,49 @@ async function saveMessage(message: StoredMessage) {
 function readSmtpResponse(socket: tls.TLSSocket) {
   return new Promise<string>((resolve, reject) => {
     let data = "";
+    const timer = setTimeout(() => reject(new Error("SMTP timeout. Render may be blocking Gmail SMTP port 465.")), 15000);
 
-    function cleanup() {
-      socket.off("data", onData);
-      socket.off("error", onError);
-    }
-
-    function onError(error: Error) {
-      cleanup();
-      reject(error);
-    }
-
-    function onData(chunk: Buffer) {
+    socket.on("error", reject);
+    socket.on("data", (chunk) => {
       data += chunk.toString("utf8");
-      const lines = data.trimEnd().split(/\r?\n/);
-      const lastLine = lines[lines.length - 1] || "";
-
+      const lastLine = data.trimEnd().split(/\r?\n/).at(-1) || "";
       if (/^\d{3} /.test(lastLine)) {
-        cleanup();
+        clearTimeout(timer);
         resolve(data);
       }
-    }
-
-    socket.on("data", onData);
-    socket.on("error", onError);
+    });
   });
 }
 
-async function sendSmtpCommand(socket: tls.TLSSocket, command: string, expectedCodes: string[]) {
+async function sendSmtpCommand(socket: tls.TLSSocket, command: string, expected: string[]) {
   socket.write(`${command}\r\n`);
   const response = await readSmtpResponse(socket);
-
-  if (!expectedCodes.some((code) => response.startsWith(code))) {
-    throw new Error(response.trim());
-  }
-
-  return response;
+  if (!expected.some((code) => response.startsWith(code))) throw new Error(response.trim());
 }
 
 async function forwardToEmail(message: StoredMessage) {
   const gmailUser = process.env.GMAIL_USER?.trim();
   const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
 
-  if (!gmailUser || !gmailAppPassword) {
-    return { configured: false, delivered: false, message: "" };
-  }
+  if (!gmailUser) return { configured: true, delivered: false, message: "GMAIL_USER is missing." };
+  if (!gmailAppPassword) return { configured: true, delivered: false, message: "GMAIL_APP_PASSWORD is missing." };
 
   const socket = tls.connect({
     host: "smtp.gmail.com",
     port: 465,
-    servername: "smtp.gmail.com"
+    servername: "smtp.gmail.com",
+    timeout: 15000
   });
 
   try {
     await new Promise<void>((resolve, reject) => {
       socket.once("secureConnect", resolve);
       socket.once("error", reject);
+      socket.once("timeout", () => reject(new Error("SMTP timeout. Render may be blocking Gmail SMTP port 465.")));
     });
 
     const greeting = await readSmtpResponse(socket);
-    if (!greeting.startsWith("220")) {
-      throw new Error(greeting.trim());
-    }
+    if (!greeting.startsWith("220")) throw new Error(greeting.trim());
 
     await sendSmtpCommand(socket, "EHLO localhost", ["250"]);
     await sendSmtpCommand(socket, "AUTH LOGIN", ["334"]);
@@ -124,7 +101,7 @@ async function forwardToEmail(message: StoredMessage) {
     await sendSmtpCommand(socket, `RCPT TO:<${gmailUser}>`, ["250", "251"]);
     await sendSmtpCommand(socket, "DATA", ["354"]);
 
-    const emailBody = [
+    const body = [
       `From: "Manoj K Portfolio" <${gmailUser}>`,
       `To: ${gmailUser}`,
       `Reply-To: ${message.name} <${message.email}>`,
@@ -136,30 +113,16 @@ async function forwardToEmail(message: StoredMessage) {
       `Sender Email: ${message.email}`,
       `Subject: ${message.subject}`,
       "",
-      "Message:",
       message.message
     ].join("\r\n");
 
-    socket.write(`${escapeMailText(emailBody)}\r\n.\r\n`);
-    const deliveryResponse = await readSmtpResponse(socket);
-
-    if (!deliveryResponse.startsWith("250")) {
-      throw new Error(deliveryResponse.trim());
-    }
-
+    socket.write(`${body.replace(/^\./gm, "..")}\r\n.\r\n`);
+    const delivery = await readSmtpResponse(socket);
+    if (!delivery.startsWith("250")) throw new Error(delivery.trim());
     await sendSmtpCommand(socket, "QUIT", ["221"]);
-
-    return {
-      configured: true,
-      delivered: true,
-      message: "Email sent through Gmail."
-    };
+    return { configured: true, delivered: true, message: "Email sent through Gmail." };
   } catch (error) {
-    return {
-      configured: true,
-      delivered: false,
-      message: error instanceof Error ? error.message : "Gmail delivery failed."
-    };
+    return { configured: true, delivered: false, message: error instanceof Error ? error.message : "Gmail delivery failed." };
   } finally {
     socket.destroy();
   }
