@@ -6,7 +6,7 @@ import { portfolio } from "@/data/portfolio";
 const links = [
   { label: "GitHub", href: portfolio.githubUrl, icon: Github },
   { label: "LinkedIn", href: portfolio.linkedinUrl, icon: Linkedin },
-  { label: "Email", href: `mailto:${portfolio.email}`, icon: Mail }
+  { label: "Contact", href: "#contact", icon: Mail }
 ];
 
 export function SocialLinks() {
