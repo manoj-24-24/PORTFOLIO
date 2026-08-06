@@ -1,5 +1,4 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import tls from "node:tls";
 import path from "node:path";
 import { NextResponse } from "next/server";
 
@@ -23,10 +22,6 @@ function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function encodeBase64(value: string) {
-  return Buffer.from(value, "utf8").toString("base64");
-}
-
 async function saveMessage(message: StoredMessage) {
   const dataDir = path.join(process.cwd(), "data");
   const filePath = path.join(dataDir, "contact-messages.json");
@@ -46,86 +41,33 @@ async function saveMessage(message: StoredMessage) {
   await writeFile(filePath, JSON.stringify(messages, null, 2), "utf8");
 }
 
-function readSmtpResponse(socket: tls.TLSSocket) {
-  return new Promise<string>((resolve, reject) => {
-    let data = "";
-    const timer = setTimeout(() => reject(new Error("SMTP timeout. Render may be blocking Gmail SMTP port 465.")), 15000);
-
-    socket.on("error", reject);
-    socket.on("data", (chunk) => {
-      data += chunk.toString("utf8");
-      const lastLine = data.trimEnd().split(/\r?\n/).at(-1) || "";
-      if (/^\d{3} /.test(lastLine)) {
-        clearTimeout(timer);
-        resolve(data);
-      }
-    });
-  });
-}
-
-async function sendSmtpCommand(socket: tls.TLSSocket, command: string, expected: string[]) {
-  socket.write(`${command}\r\n`);
-  const response = await readSmtpResponse(socket);
-  if (!expected.some((code) => response.startsWith(code))) throw new Error(response.trim());
-}
-
 async function forwardToEmail(message: StoredMessage) {
-  const gmailUser = process.env.GMAIL_USER?.trim();
-  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const to = process.env.CONTACT_TO_EMAIL?.trim();
+  const from = process.env.CONTACT_FROM_EMAIL?.trim() || "Manoj Portfolio <onboarding@resend.dev>";
 
-  if (!gmailUser) return { configured: true, delivered: false, message: "GMAIL_USER is missing." };
-  if (!gmailAppPassword) return { configured: true, delivered: false, message: "GMAIL_APP_PASSWORD is missing." };
+  if (!apiKey) return { configured: true, delivered: false, message: "RESEND_API_KEY is missing." };
+  if (!to) return { configured: true, delivered: false, message: "CONTACT_TO_EMAIL is missing." };
 
-  const socket = tls.connect({
-    host: "smtp.gmail.com",
-    port: 465,
-    servername: "smtp.gmail.com",
-    timeout: 15000
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      reply_to: message.email,
+      subject: `Portfolio Contact: ${message.subject}`,
+      text: `Name: ${message.name}\nSender Email: ${message.email}\nSubject: ${message.subject}\n\n${message.message}`
+    })
   });
 
-  try {
-    await new Promise<void>((resolve, reject) => {
-      socket.once("secureConnect", resolve);
-      socket.once("error", reject);
-      socket.once("timeout", () => reject(new Error("SMTP timeout. Render may be blocking Gmail SMTP port 465.")));
-    });
+  const result = (await response.json().catch(() => null)) as { id?: string; message?: string; error?: string } | null;
 
-    const greeting = await readSmtpResponse(socket);
-    if (!greeting.startsWith("220")) throw new Error(greeting.trim());
-
-    await sendSmtpCommand(socket, "EHLO localhost", ["250"]);
-    await sendSmtpCommand(socket, "AUTH LOGIN", ["334"]);
-    await sendSmtpCommand(socket, encodeBase64(gmailUser), ["334"]);
-    await sendSmtpCommand(socket, encodeBase64(gmailAppPassword), ["235"]);
-    await sendSmtpCommand(socket, `MAIL FROM:<${gmailUser}>`, ["250"]);
-    await sendSmtpCommand(socket, `RCPT TO:<${gmailUser}>`, ["250", "251"]);
-    await sendSmtpCommand(socket, "DATA", ["354"]);
-
-    const body = [
-      `From: "Manoj K Portfolio" <${gmailUser}>`,
-      `To: ${gmailUser}`,
-      `Reply-To: ${message.name} <${message.email}>`,
-      `Subject: Portfolio Contact: ${message.subject}`,
-      "MIME-Version: 1.0",
-      "Content-Type: text/plain; charset=UTF-8",
-      "",
-      `Name: ${message.name}`,
-      `Sender Email: ${message.email}`,
-      `Subject: ${message.subject}`,
-      "",
-      message.message
-    ].join("\r\n");
-
-    socket.write(`${body.replace(/^\./gm, "..")}\r\n.\r\n`);
-    const delivery = await readSmtpResponse(socket);
-    if (!delivery.startsWith("250")) throw new Error(delivery.trim());
-    await sendSmtpCommand(socket, "QUIT", ["221"]);
-    return { configured: true, delivered: true, message: "Email sent through Gmail." };
-  } catch (error) {
-    return { configured: true, delivered: false, message: error instanceof Error ? error.message : "Gmail delivery failed." };
-  } finally {
-    socket.destroy();
+  if (!response.ok) {
+    return { configured: true, delivered: false, message: result?.message || result?.error || response.statusText };
   }
+
+  return { configured: true, delivered: true, message: result?.id || "Email sent through Resend." };
 }
 
 export async function POST(request: Request) {
@@ -164,7 +106,7 @@ export async function POST(request: Request) {
         stored: true,
         emailConfigured: true,
         emailDelivered: false,
-        error: `Message was saved, but Gmail delivery failed: ${emailResult.message || "Please check your Gmail app password settings."}`
+        error: `Message was saved, but email delivery failed: ${emailResult.message || "Please check your Resend settings."}`
       },
       { status: 502 }
     );
