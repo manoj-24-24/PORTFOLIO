@@ -193,6 +193,15 @@ export const portfolio: Portfolio = {
   },
   projects: [
     {
+      title: "QR Shield",
+      description:
+        "QR Shield protects users from malicious QR codes and phishing links with real-time scan safety checks.",
+      image: "/qr-shield.png",
+      technologies: ["React", "Cybersecurity", "URL Safety", "QR Scanner"],
+      githubUrl: "https://github.com/manoj-24-24",
+      liveUrl: "https://qr-shield-azv5.onrender.com"
+    },
+    {
       title: "Password Strength Tool",
       description:
         "Password strength tool is used to detect the strength of password with all combination possibilities to keep you secure and safe.",
