@@ -2,6 +2,7 @@ import { About } from "@/components/About";
 import { Achievements } from "@/components/Achievements";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Contact } from "@/components/Contact";
+import { CtfCollection } from "@/components/CtfCollection";
 import { Footer } from "@/components/Footer";
 import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GitHubSection } from "@/components/GitHubSection";
@@ -20,6 +21,7 @@ export default function Home() {
       <FeaturedProduct />
       <Skills />
       <Projects />
+      <CtfCollection />
       <Achievements />
       <GitHubSection />
       <Contact />
