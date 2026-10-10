@@ -54,3 +54,196 @@ img {
     text-wrap: balance;
   }
 }
+
+/* ------------------------------------------------------------------
+   Light (day) theme
+   Everything below is scoped to html.light, so the default dark theme
+   renders exactly as before. Toggled by the header ThemeToggle.
+------------------------------------------------------------------ */
+html.light {
+  color-scheme: light;
+}
+
+html.light body {
+  background: #eef2f8;
+  color: #0b1220;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #e6ebf4;
+}
+
+html.light ::selection {
+  background: rgba(14, 116, 144, 0.25);
+  color: #0b1220;
+}
+
+/* page + glass surfaces */
+html.light .bg-void {
+  background-color: #eef2f8;
+}
+
+html.light .bg-void\/70 {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+html.light .bg-void\/60 {
+  background-color: rgba(255, 255, 255, 0.76);
+}
+
+html.light .bg-void\/40 {
+  background-color: rgba(255, 255, 255, 0.68);
+}
+
+html.light .bg-void\/30 {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+html.light .bg-\[\#030712\]\/90 {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+html.light .bg-white\/\[0\.055\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.05\],
+html.light .bg-white\/\[0\.04\] {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+html.light .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.05);
+}
+
+/* borders */
+html.light .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+html.light .border-white\/15 {
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+html.light .border-white\/25 {
+  border-color: rgba(15, 23, 42, 0.18);
+}
+
+html.light .border-neon-cyan\/15,
+html.light .border-neon-cyan\/25,
+html.light .border-neon-cyan\/30,
+html.light .border-neon-cyan\/40,
+html.light .border-neon-cyan\/50,
+html.light .border-neon-cyan\/60,
+html.light .border-neon-cyan\/70 {
+  border-color: rgba(14, 116, 144, 0.45);
+}
+
+html.light .border-neon-purple\/30,
+html.light .border-neon-purple\/40,
+html.light .border-neon-purple\/50,
+html.light .border-neon-purple\/60 {
+  border-color: rgba(126, 34, 206, 0.4);
+}
+
+html.light .border-emerald-400\/20,
+html.light .border-emerald-400\/25,
+html.light .border-emerald-400\/30,
+html.light .border-emerald-400\/35,
+html.light .border-emerald-400\/45 {
+  border-color: rgba(4, 120, 87, 0.4);
+}
+
+html.light .border-cyan-300\/35 {
+  border-color: rgba(21, 94, 117, 0.4);
+}
+
+/* text */
+html.light .text-white {
+  color: #0b1220;
+}
+
+html.light .text-slate-100 {
+  color: #0f172a;
+}
+
+html.light .text-slate-200 {
+  color: #1f2937;
+}
+
+html.light .text-slate-300 {
+  color: #374151;
+}
+
+html.light .text-slate-400 {
+  color: #4b5563;
+}
+
+html.light .text-slate-500 {
+  color: #6b7280;
+}
+
+html.light .text-neon-cyan {
+  color: #0e7490;
+}
+
+html.light .text-neon-purple {
+  color: #7e22ce;
+}
+
+html.light .text-neon-blue {
+  color: #0369a1;
+}
+
+html.light .text-neon-pink {
+  color: #be185d;
+}
+
+html.light .text-emerald-300,
+html.light .text-emerald-100 {
+  color: #047857;
+}
+
+html.light .text-cyan-100 {
+  color: #155e75;
+}
+
+/* gradient stops that referenced the dark page colour */
+html.light .from-void {
+  --tw-gradient-from: rgba(255, 255, 255, 0.92) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+html.light .from-void\/10 {
+  --tw-gradient-from: rgba(238, 242, 248, 0.1) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(238, 242, 248, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+html.light .via-void\/10 {
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgba(255, 255, 255, 0.12) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+html.light .via-void\/72 {
+  --tw-gradient-to: rgba(238, 242, 248, 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgba(238, 242, 248, 0.72) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+html.light .to-void {
+  --tw-gradient-to: #eef2f8 var(--tw-gradient-to-position);
+}
+
+html.light .to-void\/80 {
+  --tw-gradient-to: rgba(255, 255, 255, 0.85) var(--tw-gradient-to-position);
+}
+
+html.light .via-white\/15 {
+  --tw-gradient-stops: var(--tw-gradient-from), rgba(15, 23, 42, 0.16) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+/* theme switch cross-fade */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 340ms;
+  animation-timing-function: ease-in-out;
+}

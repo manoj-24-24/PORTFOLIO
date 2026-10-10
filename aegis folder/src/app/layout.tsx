@@ -28,7 +28,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <script
+          // Applies the saved theme before first paint so the page never flashes the wrong colours.
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){try{var t=localStorage.getItem("manoj-k-theme");var l=t==="light";document.documentElement.classList.toggle("light",l);document.documentElement.dataset.theme=l?"light":"dark";}catch(e){}})();'
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

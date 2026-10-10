@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { portfolio } from "@/data/portfolio";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems = [
   { id: "about", label: "whoami" },
@@ -42,12 +43,15 @@ export function Header() {
             </a>
           ))}
         </div>
-        <a
-          href={portfolio.resumeUrl}
-          className="rounded-full border border-neon-purple/50 bg-neon-purple/10 px-4 py-2 text-sm font-medium text-white shadow-purpleGlow transition hover:-translate-y-0.5 hover:border-neon-cyan hover:bg-neon-cyan/10"
-        >
-          Resume
-        </a>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href={portfolio.resumeUrl}
+            className="rounded-full border border-neon-purple/50 bg-neon-purple/10 px-4 py-2 text-sm font-medium text-white shadow-purpleGlow transition hover:-translate-y-0.5 hover:border-neon-cyan hover:bg-neon-cyan/10"
+          >
+            Resume
+          </a>
+          <ThemeToggle />
+        </div>
       </nav>
     </motion.header>
   );
