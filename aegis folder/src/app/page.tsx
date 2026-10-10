@@ -9,6 +9,7 @@ import { GitHubSection } from "@/components/GitHubSection";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Projects } from "@/components/Projects";
+import { SecurityTests } from "@/components/SecurityTests";
 import { Skills } from "@/components/Skills";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
       <Skills />
       <Projects />
       <CtfCollection />
+      <SecurityTests />
       <Achievements />
       <GitHubSection />
       <Contact />

@@ -241,6 +241,23 @@ html.light .via-white\/15 {
   --tw-gradient-stops: var(--tw-gradient-from), rgba(15, 23, 42, 0.16) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
+/* severity chips on the security findings section */
+html.light .text-amber-200 {
+  color: #92400e;
+}
+
+html.light .text-rose-200 {
+  color: #9f1239;
+}
+
+html.light .border-amber-400\/40 {
+  border-color: rgba(180, 83, 9, 0.45);
+}
+
+html.light .border-rose-400\/40 {
+  border-color: rgba(190, 18, 60, 0.45);
+}
+
 /* theme switch cross-fade */
 ::view-transition-old(root),
 ::view-transition-new(root) {

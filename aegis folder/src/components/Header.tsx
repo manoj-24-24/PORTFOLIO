@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import { portfolio } from "@/data/portfolio";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const navItems = [
+const navItems: Array<{ id: string; label: string; className?: string }> = [
   { id: "about", label: "whoami" },
   { id: "skills", label: "skills" },
   { id: "projects", label: "projects" },
   { id: "achievements", label: "achievements" },
   { id: "ctf", label: "ctf" },
+  // Revealed only on wide screens so the original 7-item header keeps its spacing.
+  { id: "hacks", label: "hacks", className: "hidden min-[1200px]:block" },
   { id: "github", label: "github" },
   { id: "contact", label: "contact" }
 ];
@@ -37,7 +39,7 @@ export function Header() {
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="rounded-full px-4 py-2 text-sm capitalize text-slate-300 transition hover:bg-white/10 hover:text-neon-cyan"
+              className={`rounded-full px-4 py-2 text-sm capitalize text-slate-300 transition hover:bg-white/10 hover:text-neon-cyan ${item.className ?? ""}`}
             >
               {item.label}
             </a>

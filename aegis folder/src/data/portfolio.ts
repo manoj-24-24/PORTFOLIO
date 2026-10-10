@@ -41,6 +41,23 @@ export type CtfEntry = {
 
 export type CtfAccent = "cyan" | "emerald" | "purple";
 
+export type SecuritySeverity = "Critical" | "High" | "Medium";
+
+export type SecurityEvidence = {
+  image: string;
+  caption: string;
+};
+
+export type SecurityFinding = {
+  title: string;
+  target: string;
+  severity: SecuritySeverity;
+  summary: string;
+  fix: string;
+  techniques: string[];
+  evidence: SecurityEvidence[];
+};
+
 export type CtfPlatform = {
   id: string;
   name: string;
@@ -81,6 +98,7 @@ export type Portfolio = {
   certifications: AchievementItem[];
   achievements: AchievementItem[];
   ctfPlatforms: CtfPlatform[];
+  securityFindings: SecurityFinding[];
   featuredProduct: {
     name: string;
     role: string;
@@ -266,6 +284,36 @@ export const portfolio: Portfolio = {
       placeholder:
         "SOC alerts, investigations and lessons will be logged here as I complete them.",
       entries: []
+    }
+  ],
+  securityFindings: [
+    {
+      title: "Weak admin credentials on a live notes portal",
+      target: "karansj.42web.io / admin_dashboard.php",
+      severity: "High",
+      summary:
+        "Scripted weak-credential check against the admin panel of a PHP/MySQL notes portal. Two usernames crossed with 49 common passwords (343 attempts) returned a working admin login, and the dashboard rendered with full access. No lockout, throttling or CAPTCHA ever stopped the run, so one dictionary password was the only thing guarding every note in the app.",
+      fix:
+        "Add rate limiting plus account lockout on the login route, drop the default admin username, and enforce a real password policy (length over complexity, block breached passwords).",
+      techniques: [
+        "Python scripting",
+        "Credential testing",
+        "PHP / MySQL",
+        "Broken authentication",
+        "OWASP A07"
+      ],
+      evidence: [
+        {
+          image: "/hacks/bruteforce-terminal.png",
+          caption:
+            "Kali Linux - script driving the login attempts, 343 combinations, one success and the dashboard HTML returned in full."
+        },
+        {
+          image: "/hacks/admin-login-page.png",
+          caption:
+            "The exposed admin login panel - reachable straight from the internet with no rate limit in front of it."
+        }
+      ]
     }
   ],
   featuredProduct: {
