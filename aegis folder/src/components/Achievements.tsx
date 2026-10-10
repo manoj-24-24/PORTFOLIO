@@ -7,7 +7,7 @@ import { Section } from "@/components/Section";
 
 export function Achievements() {
   return (
-    <Section id="achievements" eyebrow="Achievements" title="Certifications, CTF practice, hackathons, and learning milestones.">
+    <Section id="achievements" eyebrow="Achievements" title="Certifications, hackathons, and learning milestones.">
       <div className="grid gap-6 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, x: -24 }}

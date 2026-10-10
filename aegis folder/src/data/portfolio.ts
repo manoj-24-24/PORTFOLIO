@@ -39,11 +39,18 @@ export type CtfEntry = {
   skills: string[];
 };
 
-export type CtfCollection = {
-  platform: string;
-  handle: string;
-  profileUrl: string;
-  summary: string;
+export type CtfAccent = "cyan" | "emerald" | "purple";
+
+export type CtfPlatform = {
+  id: string;
+  name: string;
+  tagline: string;
+  blurb: string;
+  accent: CtfAccent;
+  platformUrl: string;
+  placeholder: string;
+  handle?: string;
+  profileUrl?: string;
   entries: CtfEntry[];
 };
 
@@ -73,7 +80,7 @@ export type Portfolio = {
   skills: SkillGroup[];
   certifications: AchievementItem[];
   achievements: AchievementItem[];
-  ctf: CtfCollection;
+  ctfPlatforms: CtfPlatform[];
   featuredProduct: {
     name: string;
     role: string;
@@ -199,55 +206,68 @@ export const portfolio: Portfolio = {
  
  
   ],
-  ctf: {
-    platform: "TryHackMe",
-    handle: "cybermano",
-    profileUrl: "https://tryhackme.com/p/cybermano",
-    summary:
-      "Gamified, hands-on security training. Below are the badges I have earned and the rooms I have completed on TryHackMe.",
-    entries: [
-      {
-        title: "Introduction to Security Engineering",
-        kind: "badge",
-        description: "Completed the Security Engineer Intro room.",
-        image: "/ctf/thm-intro-security-engineering.png",
-        url: "https://tryhackme.com/cybermano/badges/intro-to-security-engineering",
-        earned: "August 10, 2026",
-        skills: ["Security Engineering", "Security Fundamentals"]
-      },
-      {
-        title: "cat linux.txt",
-        kind: "badge",
-        description: "Being competent in Linux - the Terminaled badge.",
-        image: "/ctf/thm-cat-linux-txt.png",
-        url: "https://tryhackme.com/cybermano/badges/terminaled",
-        earned: "July 9, 2026",
-        skills: ["Linux", "Terminal", "Command Line"]
-      },
-      {
-        title: "Security Principles",
-        kind: "room",
-        description:
-          "Learn about the security triad and common security models and principles.",
-        image: "/ctf/thm-security-principles.png",
-        url: "https://tryhackme.com/room/securityprinciples",
-        duration: "90 min",
-        learners: "253,815",
-        skills: ["CIA Triad", "Security Models", "Risk"]
-      },
-      {
-        title: "Cloud Security Pitfalls",
-        kind: "room",
-        description:
-          "Explore the risks companies face when migrating to the cloud, and learn how to address them in a SOC.",
-        image: "/ctf/thm-cloud-security-pitfalls.png",
-        url: "https://tryhackme.com/room/cloudsecuritypitfalls",
-        duration: "30 min",
-        learners: "10,182",
-        skills: ["Cloud Security", "SOC", "Cloud Risk"]
-      }
-    ]
-  },
+  ctfPlatforms: [
+    {
+      id: "tryhackme",
+      name: "TryHackMe",
+      tagline: "Guided rooms & learning paths",
+      blurb:
+        "Browser-based, gamified security training. These are the rooms I have completed on my TryHackMe profile.",
+      accent: "cyan",
+      platformUrl: "https://tryhackme.com/p/cybermano",
+      placeholder: "Completed rooms will appear here.",
+      handle: "cybermano",
+      profileUrl: "https://tryhackme.com/p/cybermano",
+      entries: [
+        {
+          title: "Security Principles",
+          kind: "room",
+          description:
+            "Learn about the security triad and common security models and principles.",
+          image: "/ctf/thm-security-principles.png",
+          url: "https://tryhackme.com/room/securityprinciples",
+          duration: "90 min",
+          learners: "253,815",
+          skills: ["CIA Triad", "Security Models", "Risk"]
+        },
+        {
+          title: "Cloud Security Pitfalls",
+          kind: "room",
+          description:
+            "Explore the risks companies face when migrating to the cloud, and learn how to address them in a SOC.",
+          image: "/ctf/thm-cloud-security-pitfalls.png",
+          url: "https://tryhackme.com/room/cloudsecuritypitfalls",
+          duration: "30 min",
+          learners: "10,182",
+          skills: ["Cloud Security", "SOC", "Cloud Risk"]
+        }
+      ]
+    },
+    {
+      id: "hackthebox",
+      name: "Hack The Box",
+      tagline: "Machines, challenges & labs",
+      blurb:
+        "Offensive-security practice against real, vulnerable machines and CTF-style challenges.",
+      accent: "emerald",
+      platformUrl: "https://www.hackthebox.com",
+      placeholder:
+        "Owned machines, challenges and write-ups will be logged here as I clear them.",
+      entries: []
+    },
+    {
+      id: "letsdefend",
+      name: "LetsDefend",
+      tagline: "Blue-team SOC & incident response",
+      blurb:
+        "Defensive security training on a simulated SOC - alerts, log analysis and incident response.",
+      accent: "purple",
+      platformUrl: "https://letsdefend.io",
+      placeholder:
+        "SOC alerts, investigations and lessons will be logged here as I complete them.",
+      entries: []
+    }
+  ],
   featuredProduct: {
     name: "Aegis Guard",
     role: "Builder of Aegis Guard",
