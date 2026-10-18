@@ -73,6 +73,7 @@ const ICONS: Record<string, LucideIcon> = {
 
 function EntryCard({ entry, theme }: { entry: CtfEntry; theme: Theme }) {
   const KindIcon = entry.kind === "badge" ? BadgeCheck : Terminal;
+  const audience = entry.learners ?? entry.players;
 
   return (
     <a
@@ -91,44 +92,53 @@ function EntryCard({ entry, theme }: { entry: CtfEntry; theme: Theme }) {
         aria-hidden
         className={`pointer-events-none absolute inset-y-4 left-0 w-px bg-gradient-to-b ${theme.bar} to-transparent`}
       />
-      <div className="relative">
-        <div className="flex items-center justify-between gap-3">
-          <span
-            className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] ${theme.text}`}
-          >
-            <KindIcon className="h-3.5 w-3.5" />
-            {entry.kind === "badge" ? "Badge" : "Room"}
-          </span>
-          <ExternalLink className="h-3.5 w-3.5 text-slate-500 transition group-hover/entry:-translate-y-0.5 group-hover/entry:translate-x-0.5 group-hover/entry:text-white" />
-        </div>
-        <p className="mt-2 text-sm font-semibold leading-5 text-white">{entry.title}</p>
-        {entry.duration || entry.learners || entry.earned ? (
-          <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400">
-            {entry.duration ? (
-              <span className="inline-flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                {entry.duration}
-              </span>
-            ) : null}
-            {entry.learners ? (
-              <span className="inline-flex items-center gap-1">
-                <Users className="h-3 w-3" />
-                {entry.learners}
-              </span>
-            ) : null}
-            {entry.earned ? <span>Earned {entry.earned}</span> : null}
-          </div>
+      <div className="relative flex gap-3">
+        {entry.kind === "badge" ? (
+          <img
+            src={entry.image}
+            alt={entry.title}
+            className="h-14 w-14 shrink-0 rounded-full border border-white/15 bg-void/50 object-cover transition duration-500 group-hover/entry:scale-105"
+          />
         ) : null}
-        <p className="mt-2 text-xs leading-5 text-slate-300">{entry.description}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {entry.skills.map((skill) => (
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-3">
             <span
-              key={skill}
-              className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${theme.chip}`}
+              className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] ${theme.text}`}
             >
-              {skill}
+              <KindIcon className="h-3.5 w-3.5" />
+              {entry.kind === "badge" ? "Badge" : "Room"}
             </span>
-          ))}
+            <ExternalLink className="h-3.5 w-3.5 text-slate-500 transition group-hover/entry:-translate-y-0.5 group-hover/entry:translate-x-0.5 group-hover/entry:text-white" />
+          </div>
+          <p className="mt-2 text-sm font-semibold leading-5 text-white">{entry.title}</p>
+          {entry.duration || audience || entry.earned ? (
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-400">
+              {entry.duration ? (
+                <span className="inline-flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {entry.duration}
+                </span>
+              ) : null}
+              {audience ? (
+                <span className="inline-flex items-center gap-1">
+                  <Users className="h-3 w-3" />
+                  {audience}
+                </span>
+              ) : null}
+              {entry.earned ? <span>Earned {entry.earned}</span> : null}
+            </div>
+          ) : null}
+          <p className="mt-2 text-xs leading-5 text-slate-300">{entry.description}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {entry.skills.map((skill) => (
+              <span
+                key={skill}
+                className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${theme.chip}`}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </a>

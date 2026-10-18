@@ -8,8 +8,9 @@ export type Project = {
   description: string;
   image: string;
   technologies: string[];
-  githubUrl: string;
+  githubUrl?: string;
   liveUrl: string;
+  liveLabel?: string;
 };
 
 export type Repository = {
@@ -36,6 +37,7 @@ export type CtfEntry = {
   earned?: string;
   duration?: string;
   learners?: string;
+  players?: string;
   skills: string[];
 };
 
@@ -271,7 +273,30 @@ export const portfolio: Portfolio = {
       platformUrl: "https://www.hackthebox.com",
       placeholder:
         "Owned machines, challenges and write-ups will be logged here as I clear them.",
-      entries: []
+      entries: [
+        {
+          title: "Chronicle Champion",
+          kind: "badge",
+          description:
+            "Hack The Box Academy badge for completing the Security Incident Reporting module - a top 0.5% rarity badge.",
+          image: "/ctf/htb-chronicle-champion.png",
+          url: "https://academy.hackthebox.com/dashboard",
+          earned: "October 16, 2026",
+          players: "13,264",
+          skills: ["Security Incident Reporting", "Incident Response", "0.5% rarity"]
+        },
+        {
+          title: "Academician",
+          kind: "badge",
+          description:
+            "Hack The Box Academy badge for completing the Introduction to Academy module.",
+          image: "/ctf/htb-academician.png",
+          url: "https://academy.hackthebox.com/dashboard",
+          earned: "July 9, 2026",
+          players: "834,476",
+          skills: ["Academy Onboarding", "Fundamentals"]
+        }
+      ]
     },
     {
       id: "letsdefend",
@@ -332,6 +357,16 @@ export const portfolio: Portfolio = {
     ]
   },
   projects: [
+    {
+      title: "Full Stack Learning Game",
+      description:
+        "A browser-based learning game I built where players pick a path and clear frontend, backend, cloud and security missions to level up their development skills.",
+      image: "/games/frontend-quest.png",
+      technologies: ["Web Game", "Frontend", "Interactive Learning"],
+      liveUrl:
+        "https://play.fifthdoor.com/play/frontend-quest?referrer=share&via=JmbPJQtiSNpv",
+      liveLabel: "Play"
+    },
     {
       title: "QR Shield",
       description:

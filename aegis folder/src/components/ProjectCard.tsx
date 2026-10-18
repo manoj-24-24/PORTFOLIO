@@ -37,15 +37,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           ))}
         </div>
         <div className="mt-6 flex gap-3">
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-white transition hover:border-neon-cyan hover:text-neon-cyan"
-          >
-            <Github className="h-4 w-4" />
-            Code
-          </a>
+          {project.githubUrl ? (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-white transition hover:border-neon-cyan hover:text-neon-cyan"
+            >
+              <Github className="h-4 w-4" />
+              Code
+            </a>
+          ) : null}
           <a
             href={project.liveUrl}
             target="_blank"
@@ -53,7 +55,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             className="inline-flex items-center gap-2 rounded-lg bg-neon-cyan px-4 py-2 text-sm font-semibold text-void transition hover:bg-white"
           >
             <ExternalLink className="h-4 w-4" />
-            Live
+            {project.liveLabel ?? "Live"}
           </a>
         </div>
       </div>
