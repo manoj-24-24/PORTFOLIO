@@ -372,8 +372,8 @@ export const portfolio: Portfolio = {
       "Every project written up like a case file: the problem, the solution, the tech stack, the way it runs, and how the client responded. One PDF, no fluff, no hidden pages.",
     fileUrl: "/project-documentation.pdf",
     fileName: "Manoj-K-Project-Documentation.pdf",
-    meta: ["PDF", "5 pages", "527 KB"],
-    contents: ["QR Shield", "Aegis Guard", "Password Strength Tool"]
+    meta: ["PDF", "5 pages", "551 KB"],
+    contents: ["QR Shield", "Aegis Guard", "Password Strength Tool", "Full Stack Dev"]
   },
   projects: [
     {
@@ -392,7 +392,7 @@ export const portfolio: Portfolio = {
         "QR Shield protects users from malicious QR codes and phishing links with real-time scan safety checks.",
       image: "/qr-shield.png",
       technologies: ["React", "Cybersecurity", "URL Safety", "QR Scanner"],
-      githubUrl: "https://github.com/manoj-24-24",
+      githubUrl: "https://github.com/manoj-24-24/QR-SHIELD-.git",
       liveUrl: "https://qr-shield-azv5.onrender.com"
     },
     {
@@ -415,7 +415,15 @@ export const portfolio: Portfolio = {
       githubUrl: "https://github.com/manoj-24-24/MITM--DEMONSTRATION.git",
       liveUrl: "https://manoj-24-24.github.io/MITM--DEMONSTRATION/"
     },
-    
+    {
+      title: "Full Stack Dev",
+      description:
+        "A class notes hub with three roles - admin, teacher and student. Everyone adds the notes of the day's class, links their GitHub and LinkedIn profiles, and can notify the members who have not contributed yet.",
+      image: "/projects/fullstack-dev.png",
+      technologies: ["TypeScript", "PostgreSQL", "JavaScript", "Full Stack"],
+      githubUrl: "https://github.com/manoj-24-24/fullstackdev.git",
+      liveUrl: "https://fullstackdev-afjr.onrender.com"
+    }
   ],
   repositories: [
     {
