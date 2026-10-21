@@ -3,6 +3,7 @@ import { Achievements } from "@/components/Achievements";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { Contact } from "@/components/Contact";
 import { CtfCollection } from "@/components/CtfCollection";
+import { Documentation } from "@/components/Documentation";
 import { Footer } from "@/components/Footer";
 import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GitHubSection } from "@/components/GitHubSection";
@@ -20,6 +21,7 @@ export default function Home() {
       <Hero />
       <About />
       <FeaturedProduct />
+      <Documentation />
       <Skills />
       <Projects />
       <CtfCollection />

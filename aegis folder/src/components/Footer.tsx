@@ -1,7 +1,7 @@
 import { portfolio } from "@/data/portfolio";
 import { SocialLinks } from "@/components/SocialLinks";
 
-const navItems = ["home", "about", "skills", "projects", "achievements", "github", "contact"];
+const navItems = ["home", "about", "skills", "projects", "documentation", "achievements", "github", "contact"];
 
 export function Footer() {
   return (

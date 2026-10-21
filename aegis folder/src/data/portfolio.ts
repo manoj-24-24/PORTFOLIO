@@ -110,6 +110,15 @@ export type Portfolio = {
     description: string;
     highlights: string[];
   };
+  documentation: {
+    title: string;
+    tagline: string;
+    description: string;
+    fileUrl: string;
+    fileName: string;
+    meta: string[];
+    contents: string[];
+  };
   projects: Project[];
   repositories: Repository[];
 };
@@ -355,6 +364,16 @@ export const portfolio: Portfolio = {
       "Threat monitoring",
       "Cryptographic analysis"
     ]
+  },
+  documentation: {
+    title: "The paperwork behind the build.",
+    tagline: "root@manoj-k:~$ cat project-documentation.pdf",
+    description:
+      "Every project written up like a case file: the problem, the solution, the tech stack, the way it runs, and how the client responded. One PDF, no fluff, no hidden pages.",
+    fileUrl: "/project-documentation.pdf",
+    fileName: "Manoj-K-Project-Documentation.pdf",
+    meta: ["PDF", "5 pages", "527 KB"],
+    contents: ["QR Shield", "Aegis Guard", "Password Strength Tool"]
   },
   projects: [
     {
