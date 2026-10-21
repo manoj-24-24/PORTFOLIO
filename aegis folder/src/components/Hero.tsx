@@ -18,6 +18,22 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, ease: "easeOut" }}
         >
+          <div className="mb-6 inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-emerald-400/30 bg-void/70 px-3 py-2 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-emerald-300 backdrop-blur sm:text-xs">
+            <span className="text-emerald-300 opacity-60">root@manoj-k:~$</span>
+            <span>
+              <span className="opacity-60">&#123;</span>{" "}
+              <span className="[text-shadow:0_0_16px_rgba(16,185,129,0.55)]">
+                welcome to {portfolio.name} portfolio
+              </span>{" "}
+              <span className="opacity-60">&#125;</span>
+            </span>
+            <motion.span
+              aria-hidden
+              className="inline-block h-3.5 w-2 bg-emerald-300"
+              animate={{ opacity: [1, 1, 0, 0] }}
+              transition={{ duration: 1.1, repeat: Infinity, times: [0, 0.5, 0.5, 1], ease: "linear" }}
+            />
+          </div>
           <h1 className="max-w-4xl text-5xl font-black leading-tight text-white sm:text-6xl lg:text-7xl">
             {portfolio.name}
           </h1>
@@ -59,9 +75,6 @@ export function Hero() {
         >
           <div className="absolute -inset-6 rounded-[2rem] bg-[conic-gradient(from_180deg,rgba(34,211,238,.35),rgba(168,85,247,.45),rgba(56,189,248,.35),rgba(34,211,238,.35))] opacity-80 blur-2xl" />
           <div className="relative overflow-hidden rounded-[2rem] border border-neon-cyan/40 bg-white/[0.06] p-3 shadow-glow backdrop-blur-xl">
-            <div className="absolute right-5 top-5 z-10 rounded-full border border-neon-cyan/40 bg-void/70 px-3 py-1 font-mono text-xs text-neon-cyan">
-              secure profile
-            </div>
             <img
               src={portfolio.profileImage}
               alt={`${portfolio.name} profile`}
